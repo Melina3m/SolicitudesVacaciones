@@ -8,33 +8,54 @@ use Illuminate\Support\Facades\Auth;
 
 class VacationController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
+        $query = VacationRequest::with('user');
 
         if ($user->role === 'admin') {
-            $requests = VacationRequest::with('user')->latest()->get();
-
-        // El supervisor puede ver sus solicitudes y las de los empleados a su cargo
+            // Todos pueden ser vistos por el admin
         } elseif ($user->role === 'supervisor') {
-
-            $requests = VacationRequest::with('user')
-                ->where('user_id', $user->id)
-                ->orWhereHas('user', function ($query) use ($user) {
-                    $query->where('supervisor_id', $user->id);
-                })
-                ->latest()
-                ->get();
-
+            // El supervisor puede ver sus solicitudes y las de los empleados a su cargo
+            $query->where(function ($q) use ($user) {
+                $q->where('user_id', $user->id)
+                  ->orWhereHas('user', function ($subQ) use ($user) {
+                      $subQ->where('supervisor_id', $user->id);
+                  });
+            });
         } else {
-
             // El empleado solo puede consultar sus propias solicitudes
-            $requests = VacationRequest::where('user_id', $user->id)
-                ->latest()
-                ->get();
+            $query->where('user_id', $user->id);
         }
 
-        return view('vacations.index', compact('requests'));
+        // Filtros (Solo Administrador y Supervisor pueden filtrar por empleado)
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('user_id') && in_array($user->role, ['admin', 'supervisor'])) {
+            $query->where('user_id', $request->user_id);
+        }
+
+        if ($request->filled('start_date')) {
+            $query->where('start_date', '>=', $request->start_date);
+        }
+
+        if ($request->filled('end_date')) {
+            $query->where('start_date', '<=', $request->end_date);
+        }
+
+        $requests = $query->latest()->get();
+
+        // Obtener usuarios para el filtro de empleados (solo para admin y supervisor)
+        $users = [];
+        if ($user->role === 'admin') {
+            $users = \App\Models\User::all();
+        } elseif ($user->role === 'supervisor') {
+            $users = \App\Models\User::where('supervisor_id', $user->id)->orWhere('id', $user->id)->get();
+        }
+
+        return view('vacations.index', compact('requests', 'users'));
     }
 
     public function create()

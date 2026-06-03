@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\VacationController; // Importamos nuestro controlador
+use App\Http\Controllers\VacationController;
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 // Ruta de bienvenida (la que ya trae Laravel)
@@ -12,9 +14,7 @@ Route::get('/', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     
     
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -28,6 +28,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/vacaciones', [VacationController::class, 'store'])->name('vacations.store');
     // Cambiar estado (Aprobar, Rechazar, Cancelar)
     Route::patch('/vacaciones/{vacationRequest}/estado', [VacationController::class, 'updateStatus'])->name('vacations.updateStatus');
+
+    // Rutas de Empleados (Solo Administradores y Supervisores)
+    Route::middleware('role:admin,supervisor')->group(function () {
+        Route::resource('empleados', EmployeeController::class)->names('employees');
+    });
 
 });
 

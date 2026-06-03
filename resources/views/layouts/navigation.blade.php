@@ -18,6 +18,20 @@
                 </div>
             </div>
 
+            {{-- mio --}}
+
+            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <x-nav-link :href="route('vacations.index')" :active="request()->routeIs('vacations.*')">
+                    {{ __('Vacaciones') }}
+                </x-nav-link>
+                @if(Auth::user()->role === 'admin' || Auth::user()->role === 'supervisor')
+                <x-nav-link :href="route('employees.index')" :active="request()->routeIs('employees.*')">
+                    {{ __('Empleados') }}
+                </x-nav-link>
+                @endif
+            </div>
+
+
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">
@@ -70,6 +84,14 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('vacations.index')" :active="request()->routeIs('vacations.*')">
+                {{ __('Vacaciones') }}
+            </x-responsive-nav-link>
+            @if(Auth::user()->role === 'admin' || Auth::user()->role === 'supervisor')
+            <x-responsive-nav-link :href="route('employees.index')" :active="request()->routeIs('employees.*')">
+                {{ __('Empleados') }}
+            </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->

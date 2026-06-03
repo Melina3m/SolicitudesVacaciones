@@ -1,59 +1,81 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Sistema de Gestión de Solicitudes de Vacaciones
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Este proyecto es una prueba técnica desarrollada con **Laravel y Blade tradicional**. Permite gestionar solicitudes de vacaciones de empleados con un flujo completo de autenticación, roles, panel de control y módulo de administración.
 
-## About Laravel
+## Características Principales
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+*   **Autenticación con Roles:** Administrador, Supervisor y Empleado.
+*   **Módulo de Empleados:** CRUD completo para la administración de usuarios, asignación de supervisores y búsqueda/filtrado avanzado.
+*   **Módulo de Vacaciones:** 
+    *   Los empleados pueden solicitar vacaciones (cálculo automático de días y validaciones).
+    *   Pueden cancelar sus solicitudes si aún no han sido respondidas.
+*   **Vistas Dinámicas por Rol:**
+    *   **Supervisor:** Solo ve y gestiona (aprueba/rechaza con observaciones) las solicitudes de sus empleados a cargo.
+    *   **Administrador:** Ve todas las solicitudes, tiene filtros avanzados y gestiona a todos los empleados.
+*   **Dashboard Inteligente:** Indicadores dinámicos y tabla de resumen en base al rol del usuario conectado.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Requisitos Previos
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+*   PHP >= 8.2
+*   Composer
+*   Node.js & NPM
+*   Base de datos SQLite (configurada por defecto) o MySQL.
 
-## Learning Laravel
+## Instrucciones de Instalación
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Sigue estos pasos para levantar el proyecto en tu entorno local:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. **Clonar el repositorio**
+   (Si aplica) `git clone <url-del-repositorio>`
+   `cd SolicitudesVacaciones`
 
-## Laravel Sponsors
+2. **Instalar dependencias de PHP**
+   ```bash
+   composer install
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+3. **Instalar y compilar dependencias de Frontend (Tailwind y Alpine.js)**
+   ```bash
+   npm install
+   npm run build
+   ```
 
-### Premium Partners
+4. **Configurar las variables de entorno**
+   Copia el archivo de ejemplo para crear tu `.env`:
+   ```bash
+   cp .env.example .env
+   ```
+   *Nota: Por defecto, está configurado para usar SQLite, por lo que no necesitas configurar credenciales de MySQL para probar el sistema rápidamente.*
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+5. **Generar la clave de la aplicación**
+   ```bash
+   php artisan key:generate
+   ```
 
-## Contributing
+6. **Ejecutar migraciones y poblar la base de datos (Seeders)**
+   Esto creará las tablas necesarias y cargará los usuarios de prueba.
+   ```bash
+   php artisan migrate:fresh --seed
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+7. **Levantar el servidor local**
+   ```bash
+   php artisan serve
+   ```
+   La aplicación estará disponible en: [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
-## Code of Conduct
+## Usuarios de Prueba Generados (Seeders)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+La base de datos viene precargada con 3 usuarios listos para probar los diferentes flujos. Todos utilizan la misma contraseña.
 
-## Security Vulnerabilities
+| Rol | Correo Electrónico | Contraseña |
+| :--- | :--- | :--- |
+| **Administrador** | `admin@prueba.com` | `password0828` |
+| **Supervisor** | `supervisor@prueba.com` | `password0828` |
+| **Empleado** | `empleado@prueba.com` | `password0828` |
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Decisiones Técnicas y Buenas Prácticas
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+*   **Rutas Agrupadas:** Se utilizó `Route::middleware` y grupos para proteger las rutas administrativas. Se creó el middleware `CheckRole`.
+*   **Arquitectura MVC:** Uso de controladores Resource para empleados y controladores limpios para vacaciones y el dashboard.
+*   **Frontend:** Se usó TailwindCSS nativo de Laravel Breeze para la interfaz visual, logrando un aspecto limpio, moderno y responsivo. Se integró **Alpine.js** (incluido en Breeze) para manejar de forma reactiva las ventanas modales de aprobación/rechazo sin necesidad de recargar la página o instalar librerías pesadas.

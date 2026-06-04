@@ -81,7 +81,7 @@ Prueba técnica desarrollada con **Laravel + Blade tradicional** para administra
 git clone <https://github.com/Melina3m/SolicitudesVacaciones.git>
 cd SolicitudesVacaciones
 composer install
-npm install
+npm install && npm run build
 cp .env.example .env
 php artisan key:generate
 php artisan migrate:fresh --seed

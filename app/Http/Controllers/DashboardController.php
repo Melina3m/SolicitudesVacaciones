@@ -42,7 +42,7 @@ class DashboardController extends Controller
 
             $ultimas = VacationRequest::with('user')->whereIn('user_id', $empleadosIds)->latest()->take(5)->get();
 
-        } else {
+} else {
             // Empleado
             $metrics['total_empleados'] = 0; // No aplica
             $metrics['pendientes'] = VacationRequest::where('user_id', $user->id)->where('status', 'pendiente')->count();
@@ -53,6 +53,10 @@ class DashboardController extends Controller
             $ultimas = VacationRequest::where('user_id', $user->id)->latest()->take(5)->get();
         }
 
-        return view('dashboard', compact('metrics', 'ultimas'));
+
+        return view('dashboard', [
+            'metrics' => $metrics,
+            'recentRequests' => $ultimas
+        ]);
     }
 }

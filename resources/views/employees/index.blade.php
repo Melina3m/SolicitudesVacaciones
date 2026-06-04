@@ -1,10 +1,12 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Gestión de Empleados') }}
-            </h2>
-            <a href="{{ route('employees.create') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:outline-none focus:border-blue-900 focus:ring ring-blue-300 transition ease-in-out duration-150">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div>
+                <h2 class="font-bold text-2xl text-slate-800 tracking-tight leading-tight">
+                    {{ __('Gestión de Empleados') }}
+                </h2>
+            </div>
+            <a href="{{ route('employees.create') }}" class="inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 border border-transparent rounded-xl font-bold text-sm text-white shadow-sm hover:shadow-indigo-200 hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5">
                 + Nuevo Empleado
             </a>
         </div>
@@ -26,20 +28,20 @@
             @endif
 
             <!-- Filtros -->
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
-                <div class="p-6 bg-white border-b border-gray-200">
+            <div class="bg-white border border-slate-100 rounded-2xl shadow-sm overflow-hidden mb-6">
+                <div class="p-6 bg-white border-b border-slate-100">
                     <form method="GET" action="{{ route('employees.index') }}" class="flex flex-col md:flex-row gap-4 items-end">
                         <div class="w-full md:w-1/3">
                             <label for="search" class="block text-sm font-medium text-gray-700">Buscar por nombre o correo</label>
-                            <input type="text" name="search" id="search" value="{{ request('search') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                            <input type="text" name="search" id="search" value="{{ request('search') }}" class="mt-1 block w-full rounded-xl border-slate-200 bg-slate-50 text-slate-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                         </div>
                         <div class="w-full md:w-1/4">
                             <label for="position" class="block text-sm font-medium text-gray-700">Cargo</label>
-                            <input type="text" name="position" id="position" value="{{ request('position') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                            <input type="text" name="position" id="position" value="{{ request('position') }}" class="mt-1 block w-full rounded-xl border-slate-200 bg-slate-50 text-slate-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                         </div>
                         <div class="w-full md:w-1/4">
                             <label for="supervisor_id" class="block text-sm font-medium text-gray-700">Supervisor</label>
-                            <select name="supervisor_id" id="supervisor_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                            <select name="supervisor_id" id="supervisor_id" class="mt-1 block w-full rounded-xl border-slate-200 bg-slate-50 text-slate-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                 <option value="">Todos</option>
                                 @foreach($supervisors as $sup)
                                     <option value="{{ $sup->id }}" {{ request('supervisor_id') == $sup->id ? 'selected' : '' }}>
@@ -61,7 +63,7 @@
             </div>
 
             <!-- Tabla -->
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
                 <div class="p-0 bg-white border-b border-gray-200">
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">

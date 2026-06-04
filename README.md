@@ -1,81 +1,124 @@
 # Sistema de Gestión de Solicitudes de Vacaciones
 
-Este proyecto es una prueba técnica desarrollada con **Laravel y Blade tradicional**. Permite gestionar solicitudes de vacaciones de empleados con un flujo completo de autenticación, roles, panel de control y módulo de administración.
+Prueba técnica desarrollada con **Laravel + Blade tradicional** para administrar solicitudes de vacaciones con autenticación, roles, dashboard, vistas por perfil y un flujo completo de aprobación.
 
-## Características Principales
 
-*   **Autenticación con Roles:** Administrador, Supervisor y Empleado.
-*   **Módulo de Empleados:** CRUD completo para la administración de usuarios, asignación de supervisores y búsqueda/filtrado avanzado.
-*   **Módulo de Vacaciones:** 
-    *   Los empleados pueden solicitar vacaciones (cálculo automático de días y validaciones).
-    *   Pueden cancelar sus solicitudes si aún no han sido respondidas.
-*   **Vistas Dinámicas por Rol:**
-    *   **Supervisor:** Solo ve y gestiona (aprueba/rechaza con observaciones) las solicitudes de sus empleados a cargo.
-    *   **Administrador:** Ve todas las solicitudes, tiene filtros avanzados y gestiona a todos los empleados.
-*   **Dashboard Inteligente:** Indicadores dinámicos y tabla de resumen en base al rol del usuario conectado.
+
+
+## Stack Utilizado
+
+* Laravel
+* Blade tradicional
+* Tailwind CSS
+* Alpine.js
+* MySQL o SQLite
+
+## Alcance Implementado
+
+### Autenticación
+
+* Login con roles y permisos.
+* Roles disponibles: Administrador, Supervisor y Empleado.
+
+### Módulo de Empleados
+
+* Listar empleados.
+* Crear empleado.
+* Editar empleado.
+* Eliminar empleado.
+* Asignar supervisor.
+* Buscar por nombre o correo.
+* Filtrar por cargo o supervisor.
+
+### Módulo de Solicitudes de Vacaciones
+
+* Crear solicitud de vacaciones.
+* Cálculo automático de días.
+* Validación de fechas pasadas.
+* Validación de fecha fin mayor o igual a la fecha inicio.
+* Validación de motivo obligatorio.
+* Cancelación de solicitudes pendientes.
+
+### Vista de Supervisor
+
+* Ve las solicitudes de sus empleados.
+* Aprueba o rechaza solicitudes.
+* Agrega observaciones al aprobar o rechazar.
+
+### Vista de Administrador
+
+* Ve todas las solicitudes.
+* Filtra por estado, empleado y fechas.
+* Aprueba o rechaza cualquier solicitud.
+* Visualiza historial de acciones y observaciones.
+
+### Vista de Empleado
+
+* Ve todas sus solicitudes.
+* Crea nuevas solicitudes.
+* Cancela solicitudes sin responder.
+* Consulta estado, detalle y observaciones.
+
+### Dashboard
+
+* Total empleados.
+* Solicitudes pendientes.
+* Solicitudes aprobadas.
+* Solicitudes rechazadas.
+* Total solicitudes.
+* Últimas solicitudes registradas.
 
 ## Requisitos Previos
 
-*   PHP >= 8.2
-*   Composer
-*   Node.js & NPM
-*   Base de datos SQLite (configurada por defecto) o MySQL.
+* PHP 8.2 o superior
+* Composer
+* Node.js y NPM
+* Base de datos SQLite o MySQL
 
 ## Instrucciones de Instalación
 
-Sigue estos pasos para levantar el proyecto en tu entorno local:
+```bash
+git clone <https://github.com/Melina3m/SolicitudesVacaciones.git>
+cd SolicitudesVacaciones
+composer install
+npm install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate:fresh --seed
+php artisan serve
+```
 
-1. **Clonar el repositorio**
-   (Si aplica) `git clone <url-del-repositorio>`
-   `cd SolicitudesVacaciones`
 
-2. **Instalar dependencias de PHP**
-   ```bash
-   composer install
-   ```
 
-3. **Instalar y compilar dependencias de Frontend (Tailwind y Alpine.js)**
-   ```bash
-   npm install
-   npm run build
-   ```
+## Usuarios de Prueba
 
-4. **Configurar las variables de entorno**
-   Copia el archivo de ejemplo para crear tu `.env`:
-   ```bash
-   cp .env.example .env
-   ```
-   *Nota: Por defecto, está configurado para usar SQLite, por lo que no necesitas configurar credenciales de MySQL para probar el sistema rápidamente.*
+La base de datos incluye usuarios precargados para probar todos los roles.
 
-5. **Generar la clave de la aplicación**
-   ```bash
-   php artisan key:generate
-   ```
-
-6. **Ejecutar migraciones y poblar la base de datos (Seeders)**
-   Esto creará las tablas necesarias y cargará los usuarios de prueba.
-   ```bash
-   php artisan migrate:fresh --seed
-   ```
-
-7. **Levantar el servidor local**
-   ```bash
-   php artisan serve
-   ```
-   La aplicación estará disponible en: [http://127.0.0.1:8000](http://127.0.0.1:8000)
-
-## Usuarios de Prueba Generados (Seeders)
-
-La base de datos viene precargada con 3 usuarios listos para probar los diferentes flujos. Todos utilizan la misma contraseña.
-
-| Rol | Correo Electrónico | Contraseña |
+| Rol | Correo | Contraseña |
 | :--- | :--- | :--- |
-| **Administrador** | `admin@prueba.com` | `password0828` |
-| **Supervisor** | `supervisor@prueba.com` | `password0828` |
-| **Empleado** | `empleado@prueba.com` | `password0828` |
+| Administrador | admin@prueba.com | password0828 |
+| Supervisor | supervisor@prueba.com | password0828 |
+| Empleado | empleado@prueba.com | password0828 |
 
-## Decisiones Técnicas y Buenas Prácticas
+## Decisiones Técnicas
 
-*   **Rutas Agrupadas:** Se utilizó `Route::middleware` y grupos para proteger las rutas administrativas. Se creó el middleware `CheckRole`.
-*   **Arquitectura MVC:** Uso de controladores Resource para empleados y controladores limpios para vacaciones y el dashboard.
-*   **Frontend:** Se usó TailwindCSS nativo de Laravel Breeze para la interfaz visual, logrando un aspecto limpio, moderno y responsivo. Se integró **Alpine.js** (incluido en Breeze) para manejar de forma reactiva las ventanas modales de aprobación/rechazo sin necesidad de recargar la página o instalar librerías pesadas.
+* Rutas agrupadas y protegidas por middleware.
+* Separación clara entre dashboard, empleados y vacaciones.
+* Formularios con validaciones y mensajes orientados al usuario.
+* Interfaz personalizada con más jerarquía visual, colores con significado y mejor contraste.
+* Uso de Alpine.js para interacciones ligeras como modales.
+
+## Capturas de Pantalla
+
+### Dashboard
+
+![Dashboard](docs/dashboard.png)
+
+
+### Vacaciones
+
+![Vacaciones](docs/vacaciones.png)
+
+### Empleados
+
+![Empleados](docs/empleados.png)

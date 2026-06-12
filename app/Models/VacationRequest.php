@@ -14,7 +14,8 @@ class VacationRequest extends Model
         'reason', 
         'status', 
         'observations', 
-        'action_by'
+        'action_by',
+        'optional_sate',
     ];
 
     

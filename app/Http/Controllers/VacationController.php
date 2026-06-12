@@ -69,6 +69,7 @@ class VacationController extends Controller
             'start_date' => 'required|date|after_or_equal:today',
             'end_date' => 'required|date|after:start_date',
             'reason' => 'required|string|max:500',
+            'optional_date' => 'nullable|date|after_or_equal:today', //agrego campo de solicitud para p prueba
         ]);
 
         $start = new \DateTime($request->start_date);

@@ -122,3 +122,7 @@ La base de datos incluye usuarios precargados para probar todos los roles.
 ### Empleados
 
 ![Empleados](docs/empleados.png)
+
+
+### Prueba (Daniel)
+![Opcional](docs/opcional.png)

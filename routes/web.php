@@ -29,9 +29,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Cambiar estado (Aprobar, Rechazar, Cancelar)
     Route::patch('/vacaciones/{vacationRequest}/estado', [VacationController::class, 'updateStatus'])->name('vacations.updateStatus');
 
+    //Ruta para editar (empleados) (error prueba)
+    // Route::post('/employees',EmployeeController::class, 'update'])->name('employees.update')
+   
+    ////////////////
+
     // Rutas de Empleados (Solo Administradores y Supervisores)
     Route::middleware('role:admin,supervisor')->group(function () {
-        Route::resource('empleados', EmployeeController::class)->names('employees');
+        Route::resource('empleados', EmployeeController::class) -> parameters(['empleados'=> 'employee'])->names('employees');
+        //novedad al declarar la ruta en el otro intento faltaba la continuacion de las otras namess...  
     });
 
 });

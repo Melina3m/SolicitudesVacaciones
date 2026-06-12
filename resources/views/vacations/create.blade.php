@@ -34,6 +34,11 @@
                         </div>
 
                         <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="optional_date">Fecha Opcional (Si aplica)</label>
+                            <input type="date" name="optional_date" id="optional_date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        </div>
+
+                        <div class="mb-4">
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="reason">Motivo de la Solicitud</label>
                             <textarea name="reason" id="reason" rows="4" placeholder="Escribe brevemente la razón de tus vacaciones..." class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required></textarea>
                         </div>
